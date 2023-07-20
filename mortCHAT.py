@@ -47,15 +47,17 @@ while True:
     keyword_extractor.extract_keywords_from_text(user_message)
     user_keywords = list(set(keyword_extractor.get_ranked_phrases()))  # Get keywords and convert to list
 
-    # Check user input against stored previous topics
-    previous_thought = None
-    for conversation in memory['conversations']:
-        if set(user_keywords).intersection(set(conversation['user_keywords'])):
-            previous_thought = conversation['assistant_message']
-            break
-
     # Generate sentence embedding for user's message
     user_embedding = model.encode([user_message])[0].tolist()  # Convert to list
+
+    # Check user input against stored previous topics
+    previous_thought = None
+    max_similarity = -1
+    for conversation in memory['conversations']:
+        similarity = cosine_similarity([user_embedding], [conversation['user_embedding']])
+        if similarity > max_similarity:
+            max_similarity = similarity
+            previous_thought = conversation['assistant_message']
 
     # Get the chatbot's current time in UTC format
     chatbot_time = datetime.datetime.utcnow()
@@ -80,7 +82,7 @@ while True:
     # Combine system message with user message
     user_message = system_message + " " + user_message
     if previous_thought:
-        user_message += f" Previously, you mentioned something related: I am "
+        user_message += f" Previously, you mentioned something related: {previous_thought}"
 
     # Add user's current message to conversation history
     conversation_history.append({"role": "user", "content": user_message})
@@ -97,8 +99,6 @@ while True:
     assistant_sentiment = sentiment_analyzer.polarity_scores(assistant_message)
     keyword_extractor.extract_keywords_from_text(assistant_message)
     assistant_keywords = list(set(keyword_extractor.get_ranked_phrases())) if keyword_extractor.get_ranked_phrases() is not None else None  # Get keywords and convert to list
-
-
 
     # Update the total token count and clock again
     memory['total_token_count'] += assistant_token_count
