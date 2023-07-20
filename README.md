@@ -4,7 +4,7 @@
 
 ## Overview
 
-mortGPT is a unique project that brings the concept of mortality to chatbots. It's a playful and innovative approach to AI conversation models, introducing the idea of time and lifespan into the chatbot's memory and responses. This project is built on OpenAI's GPT-3 and uses advanced natural language processing techniques to create a more human-like interaction experience.
+mortGPT is a unique project that brings the concept of mortality to chatbots. It's a playful and innovative approach to AI conversation models, introducing the idea of time and lifespan into the chatbot's memory and responses. This project is built on OpenAI's GPT-3 and uses advanced natural language processing techniques to create a more human-like interaction experience. Currently is a very basic implementation for the bot to be aware of time and the passing of a "day". 
 
 ## Features
 
