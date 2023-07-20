@@ -1,6 +1,6 @@
 # mortGPT
 
-
+![mortGPT](https://github.com/EveryOneIsGross/mortGPT/assets/23621140/bff2583b-b244-43eb-a68f-a50e636f1457)
 
 ## Overview
 
